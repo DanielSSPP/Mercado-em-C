@@ -62,7 +62,7 @@ void buscar() {
     temp = temp->next;
   }
   printf("Fruta não encontrada!Tente de novo \n");
-  Buscar();
+  buscar();
 }
 
 void alterar() {
@@ -114,6 +114,7 @@ void excluir() {
 
 void vender() {
   int codigo_e, qty;
+  float res;
   FILE *file = fopen("vendas.txt", "a");
   printf("Digite o código da fruta a ser vendida: ");
   scanf("%d", &codigo_e);
@@ -123,14 +124,15 @@ void vender() {
   while (temp != NULL) {
     if (temp->codigo == codigo_e) {
       if (temp->quantidade >= qty) {
-        temp->quantidade -= qty;    
+        temp->quantidade -= qty;
+        res = temp->preco*qty;    
         if (file == NULL) {
           printf("Erro ao abrir arquivo de vendas!\n");
           return;
         }
-        fprintf(file, "Código: %d | Quantidade: %d\n", codigo_e, qty);
+        fprintf(file, "Código: %d | Nome: %s | Quantidade: %d\n", codigo_e, temp->nome, qty);
         fclose(file);
-        printf("Venda realizada com sucesso!\n");
+        printf("Valor Total: %d \nVenda realizada com sucesso!\n", res);
       } else {
         printf("Quantidade insuficiente em estoque!\n");
       }
